@@ -77,3 +77,41 @@ plt.tight_layout()
 figure_file = project_folder / "figures" / "crp_reduction_by_group.png"
 plt.savefig(figure_file, dpi=300)
 plt.show()
+
+# Keep patients with both baseline and Week 8 measurements
+complete_data = df.dropna(
+    subset=["Baseline_CRP", "Week8_CRP"]
+).copy()
+
+# Create separate plots for both groups
+fig, axes = plt.subplots(1, 2, figsize=(10, 5), sharey=True)
+
+for ax, (group_name, group_data) in zip(
+    axes,
+    complete_data.groupby("Treatment_Group")
+):
+    for _, patient in group_data.iterrows():
+        ax.plot(
+            ["Baseline", "Week 8"],
+            [patient["Baseline_CRP"], patient["Week8_CRP"]],
+            marker="o",
+            alpha=0.7
+        )
+
+    ax.set_title(group_name)
+    ax.set_xlabel("Study visit")
+    ax.grid(axis="y", alpha=0.3)
+
+axes[0].set_ylabel("CRP (mg/L)")
+fig.suptitle("Individual CRP Changes After Eight Weeks")
+
+plt.tight_layout()
+
+figure_file = (
+    project_folder
+    / "figures"
+    / "crp_before_after_by_group.png"
+)
+
+plt.savefig(figure_file, dpi=300)
+plt.show()

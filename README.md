@@ -94,7 +94,11 @@ These results are for programming practice only and should not be interpreted as
 
 !\[CRP reduction by treatment group](figures/crp\_reduction\_by\_group.png)
 
+\## Individual CRP changes
 
+The paired plots show the change from baseline to week 8 for each patient. One patient was excluded because the week-8 CRP measurement was missing.
+
+![Individual CRP changes](figures/crp_before_after_by_group.png)
 
 \## Technologies
 
