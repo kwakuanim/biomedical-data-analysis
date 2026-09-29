@@ -100,6 +100,13 @@ The paired plots show the change from baseline to week 8 for each patient. One p
 
 ![Individual CRP changes](figures/crp_before_after_by_group.png)
 
+\## Treatment response rate
+
+The response-rate analysis excludes patients without recorded response information. In this fictional dataset, the treatment and control groups show strong separation. These values are included only to demonstrate the analysis workflow.
+
+![Response rate by treatment group](figures/response_rate_by_group.png)
+
+
 \## Technologies
 
 

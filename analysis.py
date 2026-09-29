@@ -115,3 +115,57 @@ figure_file = (
 
 plt.savefig(figure_file, dpi=300)
 plt.show()
+
+# Keep patients with recorded response information
+response_data = df.dropna(subset=["Response"]).copy()
+
+# Convert Yes and No into numerical values
+response_data["Responder"] = response_data["Response"].map(
+    {"Yes": 1, "No": 0}
+)
+
+# Calculate response statistics for each group
+response_summary = (
+    response_data.groupby("Treatment_Group")["Responder"]
+    .agg(["sum", "count", "mean"])
+)
+
+response_summary["Response_Rate_Percent"] = (
+    response_summary["mean"] * 100
+)
+
+print("\nResponse summary:")
+print(
+    response_summary[
+        ["sum", "count", "Response_Rate_Percent"]
+    ].round(1)
+)
+
+# Create a bar chart
+plot_data = response_summary.reset_index()
+
+plt.figure(figsize=(7, 5))
+
+ax = sns.barplot(
+    data=plot_data,
+    x="Treatment_Group",
+    y="Response_Rate_Percent",
+    color="steelblue"
+)
+
+ax.bar_label(ax.containers[0], fmt="%.1f%%")
+
+plt.title("Response Rate by Treatment Group")
+plt.xlabel("Treatment group")
+plt.ylabel("Response rate (%)")
+plt.ylim(0, 110)
+plt.tight_layout()
+
+figure_file = (
+    project_folder
+    / "figures"
+    / "response_rate_by_group.png"
+)
+
+plt.savefig(figure_file, dpi=300)
+plt.show()
